@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+<ProjectSchemaDefinitions xmlns="http://schemas.microsoft.com/build/2009/properties" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+	<Rule Name="BabelContentTask"
+		  PageTemplate="tool"
+		  DisplayName="Babel Content Pipeline"
+		  SwitchPrefix=""
+		  Order="300">
+
+		<Rule.Categories>
+			<Category Name="General" DisplayName="General" />
+		</Rule.Categories>
+
+		<Rule.DataSource>
+			<DataSource Persistence="ProjectFile" ItemType="BabelContentTask" Label="" HasConfigurationCondition="true" />
+		</Rule.DataSource>
+
+		<EnumProperty Name="TargetType"
+					  DisplayName="Target Type"
+					  Description="Specifies the target project type(/target:[type])"
+					  Category="General"
+					  F1Keyword="VC.Project.ImageContentTask.Compress">
+			<EnumValue Name="Custom" Switch="" DisplayName="Custom" Description="Custom" />
+			<EnumValue Name="MVC" Switch="/target:MVC" DisplayName="MVC project" Description="MVC project" />
+			<EnumValue Name="WebAPI" Switch="/target:WebAPI" DisplayName="WebAPI project" Description="WebAPI project" />
+		</EnumProperty>
+
+		<!--BoolProperty Name="GenerateMips"
+					  DisplayName="Generate Mips"
+					  Description="Specifies if a full mipmap chain should be created for images. Mipmapping only applies to images. (/generatemips)"
+					  Category="General"
+					  Switch="/generatemips"
+					  F1Keyword="VC.Project.ImageContentTask.GenerateMips">
+		</BoolProperty>
+
+		<StringProperty Subtype="file"
+						Name="ContentOutput"
+						DisplayName="Content Output"
+						Description="The output file for the content."
+						Category="General"
+						Switch=""
+						F1Keyword="VC.Project.ImageContentTask.ContentOutput">
+		</StringProperty-->
+	</Rule>
+
+	<ItemType Name="BabelContentTask" DisplayName="Babel Content Pipeline" />
+	<ContentType Name="BabelContentTask" DisplayName="Babel Content Pipeline" ItemType="BabelContentTask" />
+</ProjectSchemaDefinitions>

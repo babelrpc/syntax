@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup Condition="'$(BabelContentTaskBeforeTargets)' == '' and '$(BabelContentTaskAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+		<BabelContentTaskBeforeTargets>Midl</BabelContentTaskBeforeTargets>
+		<BabelContentTaskAfterTargets>CustomBuild</BabelContentTaskAfterTargets>
+	</PropertyGroup>
+
+
+	<ItemDefinitionGroup>
+		<BabelContentTask>
+			<!--Enter Defaults Here-->
+			<ContentOutput Condition="'%(ImageContentTask.ContentOutput)' == ''">$(OutDir)%(Filename).dds</ContentOutput>
+		</BabelContentTask>
+	</ItemDefinitionGroup>
+	<Target Name="BabelContentTask">
+		
+		
+	</Target>
+
+</Project>
