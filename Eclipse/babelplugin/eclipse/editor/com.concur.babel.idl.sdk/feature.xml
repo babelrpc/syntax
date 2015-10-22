@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="com.concur.babel.idl.sdk"
+	label="BabelIdl SDK Feature "
+	version="1.0.0.qualifier">
+	<plugin
+			id="com.concur.babel.idl"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+	<plugin
+			id="com.concur.babel.idl.ui"
+			download-size="0"
+			install-size="0"
+			version="0.0.0"
+			unpack="false"/>
+</feature>

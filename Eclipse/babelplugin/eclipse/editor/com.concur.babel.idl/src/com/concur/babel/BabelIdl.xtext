@@ -1,0 +1,174 @@
+grammar com.concur.babel.BabelIdl with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate babelIdl "http://www.concur.com/babel/BabelIdl" 
+
+BabelIdl:
+    comment+=CommentType*
+    imports+=ImportStatement*
+    defaultNamespace=DefaultNameSpace
+    namespaces+=Namespace*
+    definitions+=BabelDefinition*
+;
+
+BabelDefinition:
+    Enum | Struct | Const | Service
+;
+
+LineTerm:
+    (',' | ';')
+;
+
+Namespace:
+    "namespace" lang=SupportedLangs ns=STRING 
+;
+
+DefaultNameSpace:
+    "namespace" def=DefaultQualifier ns=QualifiedName
+;
+
+DefaultQualifier:
+    ID'.'ID
+;
+
+QualifiedName:
+  ('/'ID)*
+;
+
+ImportStatement:
+    'import' importURI=STRING
+;
+
+Enum:
+    comment+=CommentType*
+    "enum" name=ID "{"
+        properties+=EnumProperty*
+    "}"
+;
+
+EnumProperty:
+    comment+=CommentType*
+    name=EnumPropertyId "=" type=EnumOrdinal(LineTerm)?
+;
+
+EnumOrdinal:
+    type=INT
+;
+
+EnumPropertyId:
+    name=ID
+;
+
+Const:
+    comment+=CommentType*
+    "const" name=ID "{"
+        properties+=ConstProperty*
+    "}"    
+;
+
+ConstProperty:
+    comment+=CommentType*
+    name=ConstPropertyId "=" val=ConstValueType(LineTerm)?
+;
+
+ConstValueType:
+    stringVal=STRING | boolVal=BOOL | numVal=ConstNumValue
+;
+
+ConstNumValue:
+    '-'?INT('.'INT)?
+;
+
+ConstPropertyId:
+    name=ID
+;
+
+Struct:
+    comment+=CommentType*
+    attributes+=Attribute*
+    "struct" ("abstract")? name=ID ("extends" superType=[Struct])? "{"
+        properties+=Property*
+    "}"
+; 
+
+Property:
+    comment+=CommentType*
+    attributes+=Attribute*
+    (dateType=DataTypeReference | elementType=[ElementTypeReference]) name=PropertyValue(LineTerm)?
+;
+
+PropertyValue:
+    name=ID
+;
+
+Service:
+    comment+=CommentType*
+    attributes+=Attribute*
+    "service" name=ID "{"
+        serviceMethods+=ServiceMethod*
+    "}"
+;
+
+ServiceMethod:
+    comment+=CommentType*
+    attributes+=Attribute*
+    return=ServiceMethodReturnType name=ID"("properties+=ServiceProperty*")"(LineTerm)?
+;
+
+ServiceProperty:
+    name=Property
+;
+
+ServiceMethodReturnType:
+    (voidType='void' | dataType=DataTypeReference | elementType=[ElementTypeReference])
+;
+
+DataTypeReference: type=DataTypeEnum|ListType|MapType;
+
+ElementTypeReference: Struct | Enum ;
+
+ListType:
+    "list""<" (dateType=DataTypeReference | elementType=[ElementTypeReference]) ">"
+;
+
+MapType:
+    "map""<" (keyDataType=DataTypeReference | keyElementType=[ElementTypeReference])","(valDataType=DataTypeReference | valElementType=[ElementTypeReference])">"
+;
+
+CommentType: SL_COMMENT | ML_COMMENT;
+
+Attribute:
+    ("@"scope=ID)? attr=ATTR
+;
+
+terminal ATTR: "[" -> "]" ;
+
+enum DataTypeEnum:
+    BOOL = "bool" |
+    BYTE = "byte" |
+    UNIT16 = "uint16" |
+    UINT32 = "uint32" |
+    UNIT64 = "uint64" |
+    SBYTE = "sbyte" |
+    INT16 = "int16" |
+    INT32 = "int32" |
+    INT64 = "int64" |
+    FLOAT32 = "float32" |
+    FLOAT64 = "float64" |
+    STRING = "string" |
+    DATETIME = "datetime" |
+    DECIMAL = "decimal" |
+    CHAR = "char" |
+    BINARY = "binary"
+;
+
+enum SupportedLangs:
+    JAVA = "java" |
+    CSHARP = "csharp" |
+    ASP = "asp"
+;
+
+terminal BOOL:
+    ('true' | 'false')
+;
